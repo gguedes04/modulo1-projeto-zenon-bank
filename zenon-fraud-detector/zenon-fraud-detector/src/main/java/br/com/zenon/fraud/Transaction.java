@@ -2,7 +2,7 @@ package br.com.zenon.fraud;
 
 public record Transaction(
         int step,
-        String type,
+        TransactionType type,
         double amount,
         String clienteOrigem,
         String clienteDestino,

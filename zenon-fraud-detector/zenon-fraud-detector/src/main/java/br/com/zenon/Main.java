@@ -1,6 +1,7 @@
 package br.com.zenon;
 import br.com.zenon.fraud.Cliente;
 import br.com.zenon.fraud.Transaction;
+import br.com.zenon.fraud.Transaction.TransactionType;
 
 import java.util.List;
 
@@ -16,8 +17,8 @@ public class Main {
         );
 
         List<Transaction> transactions = List.of(
-                new Transaction(1, "PAYMENT", 9839.64, "C1231006815", "M1979787155", false, false),
-                new Transaction(743,"CASH_OUT", 850002.52, "C1280323807", "C873221189", true, false)
+                new Transaction(1, TransactionType.PAYMENT, 9839.64, "C1231006815", "M1979787155", false, false),
+                new Transaction(743, TransactionType.CASH_OUT, 850002.52, "C1280323807", "C873221189", true, false)
         );
 
         for (Transaction transaction : transactions) {
