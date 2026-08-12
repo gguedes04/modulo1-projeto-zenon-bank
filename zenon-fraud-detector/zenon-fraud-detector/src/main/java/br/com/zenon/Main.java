@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Main {
 
-    static void main(String[] args) {
+    static void main() {
 
         List<Cliente> clientes = List.of(
                 new Cliente("C1231006815", 170136.0, 160296.36, "ORIGEM"),
