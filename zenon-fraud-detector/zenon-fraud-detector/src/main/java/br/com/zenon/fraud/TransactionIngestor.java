@@ -3,6 +3,7 @@ package br.com.zenon.fraud;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class TransactionIngestor {
                 Transaction transaction = new Transaction(
                         Integer.parseInt(parts[0].trim()),
                         Transaction.TransactionType.valueOf(parts[1].trim().toUpperCase()),
-                        Double.parseDouble(parts[2].trim()),
+                        new BigDecimal(parts[2].trim()),
                         clienteOrigem,
                         clienteDestino,
                         Boolean.parseBoolean(parts[9].trim()),

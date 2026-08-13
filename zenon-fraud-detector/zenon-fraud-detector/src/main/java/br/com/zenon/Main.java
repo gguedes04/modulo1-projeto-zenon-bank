@@ -5,6 +5,7 @@ import br.com.zenon.fraud.Transaction.TransactionType;
 import br.com.zenon.fraud.TransactionIngestor;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 public class Main {
@@ -19,7 +20,7 @@ public class Main {
         );
 
         List<Transaction> transactions = List.of(
-                new Transaction(1, TransactionType.PAYMENT, 9839.64,
+                new Transaction(1, TransactionType.PAYMENT, new BigDecimal("9839.64"),
                         clientes.stream()
                                 .filter(cliente -> cliente.name().equals("C1231006815"))
                                 .findFirst()
@@ -28,7 +29,7 @@ public class Main {
                                 .filter(cliente -> cliente.name().equals("C1231006815"))
                                 .findFirst()
                                 .orElse(null), false, false),
-                new Transaction(743, TransactionType.CASH_OUT, 850002.52,
+                new Transaction(743, TransactionType.CASH_OUT, new BigDecimal("850002.52"),
                         clientes.stream()
                                 .filter(cliente -> cliente.name().equals("C1280323807"))
                                 .findFirst()
@@ -78,6 +79,23 @@ public class Main {
         for (int i = 0; i <= 10; i++) {
             System.out.println(transactionsList.get(i));
         }
+
+    // IMPRIME DADOS DE OUTRO ARQUIVO COM ERROS
+        List<Transaction> transactionsListErro = null;
+        try {
+            transactionsListErro = transactionIngestor.ingestor("src/data/paysim_with_bad_data.csv");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (int i = 0; i < transactionsListErro.size(); i++) {
+            System.out.println(transactionsListErro.get(i));
+        }
+
+        //for (Transaction transaction : transactionsListErro) {
+        //    System.out.println(transaction);
+        //}
+
     }
 
 }
