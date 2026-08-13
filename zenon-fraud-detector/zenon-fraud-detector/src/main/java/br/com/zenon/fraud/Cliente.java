@@ -2,9 +2,8 @@ package br.com.zenon.fraud;
 
 public record Cliente(
         String name,
-        double oldbalance,
-        double newbalance,
-        String tipoCliente
+        double oldBalance,
+        double newBalance
 ) {
     public enum TipoCliente {
         ORIGEM, DESTINO

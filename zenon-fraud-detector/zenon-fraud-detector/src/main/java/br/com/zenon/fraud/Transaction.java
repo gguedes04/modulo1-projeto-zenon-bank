@@ -4,8 +4,8 @@ public record Transaction(
         int step,
         TransactionType type,
         double amount,
-        String clienteOrigem,
-        String clienteDestino,
+        Cliente clienteOrigem,
+        Cliente clienteDestino,
         boolean isFraud,
         boolean isFlaggedFraud
 ) {
