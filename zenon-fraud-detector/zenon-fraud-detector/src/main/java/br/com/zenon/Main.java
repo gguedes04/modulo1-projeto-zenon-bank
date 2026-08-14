@@ -69,9 +69,9 @@ public class Main {
         }
 
         TransactionIngestor transactionIngestor = new TransactionIngestor();
-        List<Transaction> transactionsList = null;
+        List<Transaction> transactionsList;
         try {
-            transactionsList = transactionIngestor.ingestor("src/data/PS_20174392719_1491204439457_log.csv");
+           transactionsList = transactionIngestor.ingestor("src/data/PS_20174392719_1491204439457_log.csv");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -81,12 +81,8 @@ public class Main {
         }
 
     // IMPRIME DADOS DE OUTRO ARQUIVO COM ERROS
-        List<Transaction> transactionsListErro = null;
-        try {
-            transactionsListErro = transactionIngestor.ingestor("src/data/paysim_with_bad_data.csv");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        List<Transaction> transactionsListErro;
+        transactionsListErro = transactionIngestor.ingestorBadData("src/data/paysim_with_bad_data.csv");
 
         for (int i = 0; i < transactionsListErro.size(); i++) {
             System.out.println(transactionsListErro.get(i));
