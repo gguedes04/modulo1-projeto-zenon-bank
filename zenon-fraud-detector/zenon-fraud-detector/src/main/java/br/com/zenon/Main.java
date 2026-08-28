@@ -1,5 +1,6 @@
 package br.com.zenon;
 import br.com.zenon.fraud.Cliente;
+import br.com.zenon.fraud.FraudAnalyzer;
 import br.com.zenon.fraud.Transaction;
 import br.com.zenon.fraud.Transaction.TransactionType;
 import br.com.zenon.fraud.TransactionIngestor;
@@ -7,6 +8,7 @@ import br.com.zenon.fraud.TransactionIngestor;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
 
@@ -68,6 +70,7 @@ public class Main {
             System.out.println("------------------");
         }
 
+/*        // aula 03 - ingestao de dados
         TransactionIngestor transactionIngestor = new TransactionIngestor();
         List<Transaction> transactionsList;
         try {
@@ -78,19 +81,45 @@ public class Main {
 
         for (int i = 0; i <= 10; i++) {
             System.out.println(transactionsList.get(i));
-        }
+        }*/
 
     // IMPRIME DADOS DE OUTRO ARQUIVO COM ERROS
-        List<Transaction> transactionsListErro;
+        // aula 04 - Tratamento de erros
+/*        List<Transaction> transactionsListErro;
         transactionsListErro = transactionIngestor.ingestorBadData("src/data/paysim_with_bad_data.csv");
 
         for (int i = 0; i < transactionsListErro.size(); i++) {
             System.out.println(transactionsListErro.get(i));
-        }
+        }*/
 
         //for (Transaction transaction : transactionsListErro) {
         //    System.out.println(transaction);
         //}
+
+        // aula 05 - streams
+        TransactionIngestor transactionIngestor = new TransactionIngestor();
+        List<Transaction> transactionsList;
+        try {
+            transactionsList = transactionIngestor.ingestor("src/data/PS_20174392719_1491204439457_log.csv", 50000);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        FraudAnalyzer analyzer = new FraudAnalyzer();
+
+        List<Transaction> listaComFraude = analyzer.tamanhoLista(transactionsList);
+
+        List<Transaction> listaTresMaioresFraudes = analyzer.tresMaioresFraudes(transactionsList);
+
+        List<String> listaCincoMaioresClientes = analyzer.cincoMaioresClientes(transactionsList);
+
+        BigDecimal prejuizoTotal = analyzer.prejuizoTotal(transactionsList);
+
+        Map<TransactionType,Long> listaQuantidadeFraudeTipoTransacao = analyzer.quantidadeFraudeTipoTransacao(transactionsList);
+
+        /*for (int i = 0; i <= 10; i++) {
+            System.out.println(transactionsList.get(i));
+        }*/
 
     }
 

@@ -17,7 +17,7 @@ import static java.lang.Double.parseDouble;
 
 public class TransactionIngestor {
 
-    public List<Transaction> ingestor(String csvFilePath) throws IOException {
+    public List<Transaction> ingestor(String csvFilePath, int numerorLinhas) throws IOException {
         // o IOException na assinatura do metodo lança uma excessao caso dê algum erro
         List<Transaction> transactions = new ArrayList<>();
 
@@ -27,7 +27,7 @@ public class TransactionIngestor {
 
             int count = 0;
 
-            while ((line = br.readLine()) != null && count <= 1000) {
+            while ((line = br.readLine()) != null && count <= numerorLinhas) {
 
                 if (firstLine) {
                     firstLine = false;
@@ -50,14 +50,17 @@ public class TransactionIngestor {
 
                 Cliente clienteDestino = new Cliente(parts[6].trim(), parseDouble(parts[7].trim()), parseDouble(parts[8].trim()));
 
+                boolean isFraud = parts[9].trim().equals("1");
+                boolean isFlaggedFraud = parts[10].trim().equals("1");
+
                 Transaction transaction = new Transaction(
                         Integer.parseInt(parts[0].trim()),
                         Transaction.TransactionType.valueOf(parts[1].trim().toUpperCase()),
                         new BigDecimal(parts[2].trim()),
                         clienteOrigem,
                         clienteDestino,
-                        Boolean.parseBoolean(parts[9].trim()),
-                        Boolean.parseBoolean(parts[10].trim())
+                        isFraud,
+                        isFlaggedFraud
                 );
 
                 transactions.add(transaction);
