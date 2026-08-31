@@ -17,7 +17,7 @@ import static java.lang.Double.parseDouble;
 
 public class TransactionIngestor {
 
-    public List<Transaction> ingestor(String csvFilePath, int numerorLinhas) throws IOException {
+    public List<Transaction> ingestor(String csvFilePath, int numeroLinhas) throws IOException {
         // o IOException na assinatura do metodo lança uma excessao caso dê algum erro
         List<Transaction> transactions = new ArrayList<>();
 
@@ -27,7 +27,7 @@ public class TransactionIngestor {
 
             int count = 0;
 
-            while ((line = br.readLine()) != null && count <= numerorLinhas) {
+            while ((line = br.readLine()) != null && count <= numeroLinhas) {
 
                 if (firstLine) {
                     firstLine = false;

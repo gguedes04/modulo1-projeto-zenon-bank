@@ -1,14 +1,13 @@
 package br.com.zenon;
-import br.com.zenon.fraud.Cliente;
-import br.com.zenon.fraud.FraudAnalyzer;
-import br.com.zenon.fraud.Transaction;
+import br.com.zenon.fraud.*;
 import br.com.zenon.fraud.Transaction.TransactionType;
-import br.com.zenon.fraud.TransactionIngestor;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -97,6 +96,7 @@ public class Main {
         //}
 
         // aula 05 - streams
+/*
         TransactionIngestor transactionIngestor = new TransactionIngestor();
         List<Transaction> transactionsList;
         try {
@@ -116,10 +116,48 @@ public class Main {
         BigDecimal prejuizoTotal = analyzer.prejuizoTotal(transactionsList);
 
         Map<TransactionType,Long> listaQuantidadeFraudeTipoTransacao = analyzer.quantidadeFraudeTipoTransacao(transactionsList);
+*/
 
-        /*for (int i = 0; i <= 10; i++) {
-            System.out.println(transactionsList.get(i));
-        }*/
+        // aula 06 - benchmark
+        TransactionIngestor transactionIngestor = new TransactionIngestor();
+        List<Transaction> transactionsList;
+        try {
+            transactionsList = transactionIngestor.ingestor("src/data/PS_20174392719_1491204439457_log.csv", 1000000);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        TransactionRepository transactionListRepository = new TransactionListRepository();
+
+        // aula 06 - benchmark - item 3
+
+        //transactionListRepository.buscarTransacaoPorNome(transactionsList, "C1231006815");
+
+        //transactionListRepository.buscarTransacaoPorNome(transactionsList, "C1280323807");
+
+        //transactionListRepository.buscarTransacaoPorNome(transactionsList, "C12345");
+
+        // aula 06 - benchmark - item 4
+        transactionListRepository.buscarTransacaoPorNomeMedindoTempo(transactionsList, "C1231006815");
+        transactionListRepository.buscarTransacaoPorNomeMedindoTempo(transactionsList, "C1868032458");
+        //transactionListRepository.buscarTransacaoPorNomeMedindoTempo(transactionsList, "C1868");
+
+        // aula 06 - benchmark - item 6: carregando em Map<String, Transaction>
+        TransactionMapRepository transactionMapRepository = new TransactionMapRepository();
+
+        Map<String, Transaction> transactionsMap = transactionsList.stream()
+                .collect(Collectors.toMap(
+                        transaction -> transaction.clienteOrigem().name(),
+                        Function.identity(),
+                        (transactionAtual, transactionNova) -> transactionNova
+                ));
+
+        System.out.println("Total de chaves no Map: " + transactionsMap.size());
+
+        Transaction transactionEncontrada = transactionMapRepository
+                .buscarTransacaoPorNomeMedindoTempo(transactionsMap, "C1868032458");
+
+        System.out.println("Transação encontrada no Map: " + transactionEncontrada);
 
     }
 
