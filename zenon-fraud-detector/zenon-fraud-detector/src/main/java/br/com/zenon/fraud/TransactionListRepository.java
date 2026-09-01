@@ -61,4 +61,9 @@ public class TransactionListRepository implements TransactionRepository{
 
     }
 
+    @Override
+    public Transaction save(Transaction transaction) {
+        return transaction;
+    }
+
 }

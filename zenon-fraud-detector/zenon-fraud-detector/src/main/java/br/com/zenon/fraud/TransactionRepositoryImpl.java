@@ -12,4 +12,9 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     public List<Transaction> buscarTransacaoPorNomeMedindoTempo(List<Transaction> transactions, String nomeCliente) {
         return List.of();
     }
+
+    @Override
+    public Transaction save(Transaction transaction) {
+        return transaction;
+    }
 }
