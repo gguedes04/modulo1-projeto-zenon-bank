@@ -14,6 +14,7 @@ public class TransactionSqlRepository implements TransactionRepository, AutoClos
 
     private final Connection connection;
 
+    // Metodo que irá realizar a conexão com o banco de dados
     public TransactionSqlRepository(String jdbcUrl, String username, String password) {
         try {
             this.connection = DriverManager.getConnection(jdbcUrl, username, password);
@@ -25,36 +26,12 @@ public class TransactionSqlRepository implements TransactionRepository, AutoClos
 
     @Override
     public List<Transaction> buscarTransacaoPorNome(List<Transaction> transactions, String nomeCliente) {
-        List<Transaction> listaCliente = transactions.stream()
-                .filter(transaction -> transaction.clienteOrigem().name().equalsIgnoreCase(nomeCliente))
-                .toList();
-
-        listaCliente.forEach(System.out::println);
-
-        if (listaCliente.isEmpty()) {
-            throw new IllegalArgumentException("Nenhuma transação encontrada para o cliente: " + nomeCliente);
-        }
-
-        return listaCliente;
+        return List.of();
     }
 
     @Override
     public List<Transaction> buscarTransacaoPorNomeMedindoTempo(List<Transaction> transactions, String nomeCliente) {
-        long inicio = System.nanoTime();
-
-        Transaction listaCliente = transactions.stream()
-                .filter(transaction -> transaction.clienteOrigem().name().equalsIgnoreCase(nomeCliente))
-                .max(Comparator.comparing(Transaction::amount))
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "Nenhuma transação encontrada para o cliente: " + nomeCliente));
-
-        long fim = System.nanoTime();
-
-        System.out.println("Inicio da busca pelo nome do Cliente: " + inicio);
-        System.out.println("Fim da busca pelo nome do Cliente: " + fim);
-        System.out.println("Tempo Total da busca pelo nome do Cliente: " + (fim - inicio) / 1_000_000.0);
-
-        return List.of(listaCliente);
+        return List.of();
     }
 
     @Override
