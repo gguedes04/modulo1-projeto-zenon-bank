@@ -1,5 +1,6 @@
 package br.com.zenon;
 import br.com.zenon.fraud.*;
+import br.com.zenon.fraud.Cliente.TipoCliente;
 import br.com.zenon.fraud.Transaction.TransactionType;
 
 import java.io.IOException;
@@ -11,17 +12,17 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    static void main() {
+    public static void main(String[] args) {
 
         List<Cliente> clientes = List.of(
-                new Cliente("C1231006815", 170136.0, 160296.36),
-                new Cliente("M1979787155", 0.0, 0.0),
-                new Cliente("C1280323807", 850002.52, 0.0),
-                new Cliente("C873221189", 6510099.11, 7360101.63)
+                new Cliente(null, "C1231006815", 170136.0, 160296.36, TipoCliente.ORIGEM),
+                new Cliente(null, "M1979787155", 0.0, 0.0, TipoCliente.DESTINO),
+                new Cliente(null, "C1280323807", 850002.52, 0.0, TipoCliente.ORIGEM),
+                new Cliente(null, "C873221189", 6510099.11, 7360101.63, TipoCliente.DESTINO)
         );
 
         List<Transaction> transactions = List.of(
-                new Transaction(1, TransactionType.PAYMENT, new BigDecimal("9839.64"),
+                new Transaction(null, 1, TransactionType.PAYMENT, new BigDecimal("9839.64"),
                         clientes.stream()
                                 .filter(cliente -> cliente.name().equals("C1231006815"))
                                 .findFirst()
@@ -30,7 +31,7 @@ public class Main {
                                 .filter(cliente -> cliente.name().equals("C1231006815"))
                                 .findFirst()
                                 .orElse(null), false, false),
-                new Transaction(743, TransactionType.CASH_OUT, new BigDecimal("850002.52"),
+                new Transaction(null, 743, TransactionType.CASH_OUT, new BigDecimal("850002.52"),
                         clientes.stream()
                                 .filter(cliente -> cliente.name().equals("C1280323807"))
                                 .findFirst()
@@ -55,15 +56,20 @@ public class Main {
 */
 
             System.out.println("------------------");
+            System.out.println("transactionId: " + transaction.transactionId());
             System.out.println("step: " + transaction.step());
             System.out.println("type: " + transaction.type());
             System.out.println("amount: " + transaction.amount());
+            System.out.println("codClienteOrigem: " + transaction.clienteOrigem().codCliente());
             System.out.println("nameOrig: " + transaction.clienteOrigem().name());
             System.out.println("oldbalanceOrg: " + transaction.clienteOrigem().oldBalance());
             System.out.println("newbalanceOrig: " + transaction.clienteOrigem().newBalance());
+            System.out.println("tipoClienteOrigem: " + transaction.clienteOrigem().tipoCliente());
+            System.out.println("codClienteDestino: " + transaction.clienteDestino().codCliente());
             System.out.println("nameDest: " + transaction.clienteDestino().name());
             System.out.println("oldbalanceDest: " + transaction.clienteDestino().oldBalance());
             System.out.println("newbalanceDest: " + transaction.clienteDestino().newBalance());
+            System.out.println("tipoClienteDestino: " + transaction.clienteDestino().tipoCliente());
             System.out.println("isFraud: " + transaction.isFraud());
             System.out.println("isFlaggedFraud: " + transaction.isFlaggedFraud());
             System.out.println("------------------");

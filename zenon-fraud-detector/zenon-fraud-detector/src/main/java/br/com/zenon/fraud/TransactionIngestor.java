@@ -14,6 +14,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static java.lang.Double.parseDouble;
+import br.com.zenon.fraud.Cliente.TipoCliente;
 
 public class TransactionIngestor {
 
@@ -46,9 +47,21 @@ public class TransactionIngestor {
                     throw new IllegalArgumentException("Linha inválida: " + line);
                 }
 
-                Cliente clienteOrigem = new Cliente(parts[3].trim(), parseDouble(parts[4].trim()), parseDouble(parts[5].trim()));
+                Cliente clienteOrigem = new Cliente(
+                        null,
+                        parts[3].trim(),
+                        parseDouble(parts[4].trim()),
+                        parseDouble(parts[5].trim()),
+                        TipoCliente.ORIGEM
+                );
 
-                Cliente clienteDestino = new Cliente(parts[6].trim(), parseDouble(parts[7].trim()), parseDouble(parts[8].trim()));
+                Cliente clienteDestino = new Cliente(
+                        null,
+                        parts[6].trim(),
+                        parseDouble(parts[7].trim()),
+                        parseDouble(parts[8].trim()),
+                        TipoCliente.DESTINO
+                );
 
                 boolean isFraud = parts[9].trim().equals("1");
                 boolean isFlaggedFraud = parts[10].trim().equals("1");
@@ -185,8 +198,20 @@ public class TransactionIngestor {
             }
             Boolean isFlaggedFraud = Boolean.parseBoolean(parts[10].trim());
 
-            Cliente clienteOrigem = new Cliente(parts[3].trim(),Double.parseDouble(parts[4].trim()),Double.parseDouble(parts[5].trim()));
-            Cliente clienteDestino = new Cliente(parts[6].trim(),Double.parseDouble(parts[7].trim()),Double.parseDouble(parts[8].trim()));
+            Cliente clienteOrigem = new Cliente(
+                    null,
+                    parts[3].trim(),
+                    Double.parseDouble(parts[4].trim()),
+                    Double.parseDouble(parts[5].trim()),
+                    TipoCliente.ORIGEM
+            );
+            Cliente clienteDestino = new Cliente(
+                    null,
+                    parts[6].trim(),
+                    Double.parseDouble(parts[7].trim()),
+                    Double.parseDouble(parts[8].trim()),
+                    TipoCliente.DESTINO
+            );
 
             Transaction transaction = new Transaction(
                     Integer.parseInt(parts[0].trim()),

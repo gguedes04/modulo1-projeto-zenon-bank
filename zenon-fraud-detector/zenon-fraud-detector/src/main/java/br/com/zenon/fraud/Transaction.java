@@ -3,6 +3,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public record Transaction(
+        Long transactionId,
         int step,
         TransactionType type,
         BigDecimal amount,
@@ -14,6 +15,10 @@ public record Transaction(
 
     public enum TransactionType {
         CASH_IN, CASH_OUT, TRANSFER, DEBIT, PAYMENT
+    }
+
+    public Transaction(int step, TransactionType type, BigDecimal amount, Cliente clienteOrigem, Cliente clienteDestino, boolean isFraud, boolean isFlaggedFraud) {
+        this(null, step, type, amount, clienteOrigem, clienteDestino, isFraud, isFlaggedFraud);
     }
 
     public Transaction {

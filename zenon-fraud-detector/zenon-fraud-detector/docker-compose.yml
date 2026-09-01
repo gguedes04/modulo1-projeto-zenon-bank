@@ -1,0 +1,16 @@
+services:
+  mysql:
+    image: mysql:9
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: zenonDB
+      MYSQL_USER: zenon
+      MYSQL_PASSWORD: zenon123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql.zenonDB:/var/lib/mysql
+
+volumes:
+  mysql.zenonDB:
